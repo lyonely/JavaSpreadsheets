@@ -3,8 +3,17 @@ package spreadsheet;
 import common.api.BasicSpreadsheet;
 import common.api.CellLocation;
 
-/** Detects dependency cycles. */
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+/**
+ * Detects dependency cycles.
+ */
 public class CycleDetector {
+  private final BasicSpreadsheet spreadsheet;
+
   /**
    * Constructs a new cycle detector.
    *
@@ -12,7 +21,9 @@ public class CycleDetector {
    *
    * @param spreadsheet The parent spreadsheet, used for resolving cell locations.
    */
-  CycleDetector(BasicSpreadsheet spreadsheet) {}
+  CycleDetector(BasicSpreadsheet spreadsheet) {
+    this.spreadsheet = spreadsheet;
+  }
 
   /**
    * Checks for a cycle in the spreadsheet, starting at a particular cell.
@@ -23,6 +34,37 @@ public class CycleDetector {
    * @return Whether a cycle was detected in the dependency graph starting at the given cell.
    */
   public boolean hasCycleFrom(CellLocation start) {
-    throw new UnsupportedOperationException("Not implemented yet");
+    List<CellLocation> visited = new ArrayList<>();
+    visited.add(start);
+    List<CellLocation> recStack = new ArrayList<>();
+    recStack.add(start);
+    Set<CellLocation> adj = new HashSet<>();
+    spreadsheet.findCellReferences(start, adj);
+    for (CellLocation location : adj) {
+      if (isCyclic(location, visited, recStack)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private boolean isCyclic(CellLocation start, List<CellLocation> visited, List<CellLocation> recStack) {
+    if (recStack.contains(start)) {
+      return true;
+    }
+    if (visited.contains(start)) {
+      return false;
+    }
+    visited.add(start);
+    recStack.add(start);
+    Set<CellLocation> adj = new HashSet<>();
+    spreadsheet.findCellReferences(start, adj);
+    for (CellLocation location : adj) {
+      if (isCyclic(location, visited, recStack)) {
+        return true;
+      }
+    }
+    recStack.remove(start);
+    return false;
   }
 }
