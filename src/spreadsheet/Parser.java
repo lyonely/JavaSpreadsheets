@@ -1,14 +1,13 @@
 package spreadsheet;
 
+import static common.lexer.Lexer.tokenize;
+
 import common.api.Expression;
 import common.lexer.InvalidTokenException;
 import common.lexer.Token;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
-
-import static common.lexer.Lexer.tokenize;
 
 public class Parser {
   private static final Map<Token.Kind, String> associativity = Map.of(

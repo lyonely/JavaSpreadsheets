@@ -48,12 +48,13 @@ public class TestCycleDetector {
   @Test
   public void testChainedDirect() {
     FakeSpreadsheet t = new FakeSpreadsheet();
-    CycleDetector c = new CycleDetector(t);
 
     t.dependencyEdges.put(A1, new CellLocation[] {A2});
     t.dependencyEdges.put(A2, new CellLocation[] {B2});
     t.dependencyEdges.put(B2, new CellLocation[] {B1});
     t.dependencyEdges.put(B1, new CellLocation[] {B1});
+
+    CycleDetector c = new CycleDetector(t);
 
     assertTrue(c.hasCycleFrom(A1));
     assertTrue(c.hasCycleFrom(A2));
@@ -80,12 +81,13 @@ public class TestCycleDetector {
   @Test
   public void testLargeIndirect() {
     FakeSpreadsheet t = new FakeSpreadsheet();
-    CycleDetector c = new CycleDetector(t);
 
     t.dependencyEdges.put(A1, new CellLocation[] {A2});
     t.dependencyEdges.put(A2, new CellLocation[] {B2});
     t.dependencyEdges.put(B2, new CellLocation[] {B1});
     t.dependencyEdges.put(B1, new CellLocation[] {A1});
+
+    CycleDetector c = new CycleDetector(t);
 
     assertTrue(c.hasCycleFrom(A1));
     assertTrue(c.hasCycleFrom(A2));
@@ -97,12 +99,12 @@ public class TestCycleDetector {
   @Test
   public void testDiamond() {
     FakeSpreadsheet t = new FakeSpreadsheet();
-    CycleDetector c = new CycleDetector(t);
 
     t.dependencyEdges.put(A1, new CellLocation[] {A2, B1});
     t.dependencyEdges.put(A2, new CellLocation[] {B2});
     t.dependencyEdges.put(B1, new CellLocation[] {B2});
 
+    CycleDetector c = new CycleDetector(t);
     assertFalse(c.hasCycleFrom(A1));
     assertFalse(c.hasCycleFrom(A2));
     assertFalse(c.hasCycleFrom(B1));

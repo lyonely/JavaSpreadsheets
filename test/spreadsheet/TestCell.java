@@ -258,7 +258,7 @@ public class TestCell {
      */
     @Override
     public void recalculate(CellLocation location) {
-      this.recalculations.compute(location, (_l, current) -> current == null ? 1 : current + 1);
+      this.recalculations.compute(location, (l, current) -> current == null ? 1 : current + 1);
     }
 
     @Override

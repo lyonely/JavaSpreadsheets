@@ -2,7 +2,6 @@ package spreadsheet;
 
 import common.api.BasicSpreadsheet;
 import common.api.CellLocation;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -48,7 +47,9 @@ public class CycleDetector {
     return false;
   }
 
-  private boolean isCyclic(CellLocation start, List<CellLocation> visited, List<CellLocation> recStack) {
+  private boolean isCyclic(CellLocation start,
+                           List<CellLocation> visited,
+                           List<CellLocation> recStack) {
     if (recStack.contains(start)) {
       return true;
     }

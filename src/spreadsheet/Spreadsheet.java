@@ -1,15 +1,14 @@
 package spreadsheet;
 
+import static spreadsheet.Parser.parse;
+
 import common.api.BasicSpreadsheet;
 import common.api.CellLocation;
 import common.lexer.InvalidTokenException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-
-import static spreadsheet.Parser.parse;
 
 public class Spreadsheet implements BasicSpreadsheet {
   //
@@ -83,7 +82,8 @@ public class Spreadsheet implements BasicSpreadsheet {
 
   @Override
   public String getCellDisplay(CellLocation location) {
-    if (!spreadsheet.containsKey(location) || spreadsheet.get(location).getExpression().equals("")) {
+    if (!spreadsheet.containsKey(location) ||
+        spreadsheet.get(location).getExpression().equals("")) {
       return "";
     } else {
       return Double.toString(this.getCellValue(location));

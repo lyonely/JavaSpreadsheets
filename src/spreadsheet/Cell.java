@@ -1,23 +1,23 @@
 package spreadsheet;
 
+import static common.lexer.Lexer.tokenize;
+import static spreadsheet.Parser.parse;
+
 import common.api.BasicSpreadsheet;
 import common.api.CellLocation;
 import common.api.Expression;
 import common.lexer.InvalidTokenException;
 import common.lexer.Token;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static common.lexer.Lexer.tokenize;
-import static spreadsheet.Parser.parse;
-
 /**
  * A single cell in a spreadsheet, tracking the expression, value, and other parts of cell state.
  */
 public class Cell {
+  private final BasicSpreadsheet spreadsheet;
   CellLocation location;
   List<CellLocation> dependents = new ArrayList<>();
   /**
@@ -32,7 +32,6 @@ public class Cell {
   private Expression state = null;
   private Expression prevState = null;
   private double value = 0.0;
-  private final BasicSpreadsheet spreadsheet;
 
 
   Cell(BasicSpreadsheet spreadsheet, CellLocation location) {
