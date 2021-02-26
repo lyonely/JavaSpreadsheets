@@ -56,7 +56,7 @@ public class Cell {
    * <p>DO NOT CHANGE THE SIGNATURE. The test suite depends on this.
    *
    * @return a string that parses to an equivalent expression to that last stored in the cell; if no
-   * expression is stored, we return the empty string.
+   *     expression is stored, we return the empty string.
    */
   public String getExpression() {
     if (state == null) {
