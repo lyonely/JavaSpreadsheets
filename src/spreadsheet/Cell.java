@@ -76,17 +76,10 @@ public class Cell {
    */
   public void setExpression(String input) throws InvalidSyntaxException {
     if (state != null) {
-      try {
-        List<CellLocation> dependencies = tokenize(state.toString())
-            .stream()
-            .filter(t -> t.kind.equals(Token.Kind.CELL_LOCATION))
-            .map(t -> t.cellLocationValue)
-            .collect(Collectors.toList());
-        for (CellLocation dependency : dependencies) {
-          spreadsheet.removeDependency(this.location, dependency);
-        }
-      } catch (InvalidTokenException e) {
-        e.printStackTrace();
+      List<CellLocation> dependencies = this.findDependencies(state.toString());
+      assert dependencies != null;
+      for (CellLocation dependency : dependencies) {
+        spreadsheet.removeDependency(this.location, dependency);
       }
     }
     prevState = state;
@@ -96,11 +89,8 @@ public class Cell {
     } else {
       try {
         state = parse(input);
-        List<CellLocation> dependencies = tokenize(input)
-            .stream()
-            .filter(t -> t.kind.equals(Token.Kind.CELL_LOCATION))
-            .map(t -> t.cellLocationValue)
-            .collect(Collectors.toList());
+        List<CellLocation> dependencies = this.findDependencies(input);
+        assert dependencies != null;
         if (!dependencies.isEmpty()) {
           for (CellLocation dependency : dependencies) {
             spreadsheet.addDependency(this.location, dependency);
@@ -110,6 +100,19 @@ public class Cell {
         e.printStackTrace();
       }
     }
+  }
+
+  private List<CellLocation> findDependencies(String input) {
+    try {
+      return tokenize(input)
+          .stream()
+          .filter(t -> t.kind.equals(Token.Kind.CELL_LOCATION))
+          .map(t -> t.cellLocationValue)
+          .collect(Collectors.toList());
+    } catch (InvalidTokenException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 
   /**
@@ -156,17 +159,10 @@ public class Cell {
    * @param target The set that will receive the dependencies for this
    */
   public void findCellReferences(Set<CellLocation> target) {
-    try {
-      if (state != null) {
-        List<CellLocation> dependencies = tokenize(state.toString())
-            .stream()
-            .filter(t -> t.kind.equals(Token.Kind.CELL_LOCATION))
-            .map(t -> t.cellLocationValue)
-            .collect(Collectors.toList());
-        target.addAll(dependencies);
-      }
-    } catch (InvalidTokenException e) {
-      e.printStackTrace();
+    if (state != null) {
+      List<CellLocation> dependencies = this.findDependencies(state.toString());
+      assert dependencies != null;
+      target.addAll(dependencies);
     }
   }
 
