@@ -113,6 +113,8 @@ public class Cell {
   }
 
   /**
+   * Returns a string representing the value, if any, of this cell.
+   *
    * @return a string representing the value, if any, of this cell.
    */
   @Override

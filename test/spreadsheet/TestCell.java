@@ -213,6 +213,8 @@ public class TestCell {
     private final Map<CellLocation, Integer> recalculations = new HashMap<>();
 
     /**
+     * Returns the number of times location was asked to recalculate.
+     *
      * @param location the location to check.
      * @return the number of times location was asked to recalculate.
      */

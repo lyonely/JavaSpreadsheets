@@ -7,12 +7,16 @@ import spreadsheet.InvalidSyntaxException;
 public interface BasicSpreadsheet extends EvaluationContext {
 
   /**
+   * Returns the display string of the cell at the given location.
+   *
    * @param location The cell location to query.
    * @return the display string of the cell at the given location.
    */
   String getCellDisplay(CellLocation location);
 
   /**
+   * Returns the expression of the cell at the given location.
+   *
    * @param location The cell location to query.
    * @return the expression of the cell at the given location.
    */

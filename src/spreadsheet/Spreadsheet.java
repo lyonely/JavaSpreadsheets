@@ -82,8 +82,8 @@ public class Spreadsheet implements BasicSpreadsheet {
 
   @Override
   public String getCellDisplay(CellLocation location) {
-    if (!spreadsheet.containsKey(location) ||
-        spreadsheet.get(location).getExpression().equals("")) {
+    if (!spreadsheet.containsKey(location)
+        || spreadsheet.get(location).getExpression().equals("")) {
       return "";
     } else {
       return Double.toString(this.getCellValue(location));

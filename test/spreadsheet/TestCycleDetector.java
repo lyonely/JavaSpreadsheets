@@ -146,9 +146,10 @@ public class TestCycleDetector {
   @Test
   public void testInvertedHub() {
     FakeSpreadsheet t = new FakeSpreadsheet();
-    CycleDetector c = new CycleDetector(t);
 
     t.dependencyEdges.put(A1, new CellLocation[] {A2, B1, B2});
+
+    CycleDetector c = new CycleDetector(t);
 
     assertFalse(c.hasCycleFrom(A1));
     assertFalse(c.hasCycleFrom(A2));
